@@ -1,8 +1,4 @@
-<div align="center">
-  <img src="resources/opencd-logo.png" width="600"/>
-</div>
-
-------
+python tools/test.py configs/ban/ban_vit-l14-clip_mit-b2_512x512_40k_levircd.py ./baan_cscd_adamW-1e-3-Cos-new/best_mIoU_iter_12000.pth
 
 <div align="center">
 <a href="https://arxiv.org/abs/2407.15317"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Farxiv.org%2Fabs%2F2407.15317&count_bg=%23FF0000&title_bg=%23555555&icon=arxiv.svg&icon=&icon_color=%23E7E7E7&title=Technical+Report&edge_flat=false"/></a>
