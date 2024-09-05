@@ -71,10 +71,6 @@ You will get the following results like:
 
 
 
-## License
-
-Open-CD is released under the Apache 2.0 license.
-
 
 ## Contact Us
 
