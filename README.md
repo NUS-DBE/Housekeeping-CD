@@ -18,19 +18,19 @@
 
 
 Please refer [Install](https://github.com/likyoo/open-cd/blob/main/docs/inference.md) doc.
-Or refer to [Install opencd](https://github.com/likyoo/open-cd).
+Or refer to Install [opencd](https://github.com/likyoo/open-cd).
 
 
 
 
 ## Usage
 
-#### Preparation
+#### Prepare pretrain models
 
 Create a new folder named pretrain, then download and store the [pretrained](https://huggingface.co/likyoo/BAN/blob/main/pretrain/clip_vit-large-patch14-336_3rdparty-0b5df9cb.pth) model. 
-Download our best [trained]() model.
+Download our best [trained](https://mynbox.nus.edu.sg/u/sJf-0POX_vqil_7r/aa885dbe-f834-428f-b8ae-3854991eb4c2?l) model.
 
-#### Test
+#### Test ⭐⭐⭐
 ```
 # get metrics
 python tools/test.py configs/hcdn/hcdn_vit-l14-clip_mit-b2_512x512_40k_levircd.py ./best.pth
@@ -70,10 +70,6 @@ You will get the following results like:
 
 
 
-
-## License
-
-Open-CD is released under the Apache 2.0 license.
 
 
 ## Contact Us
