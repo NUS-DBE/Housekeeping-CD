@@ -1,6 +1,6 @@
 # dataset settings
 dataset_type = 'LEVIR_CD_Dataset'
-data_root = 'data/LEVIR-CD'
+data_root = 'data/LEVIR-CD (noA)'
 
 crop_size = (512, 512)
 train_pipeline = [

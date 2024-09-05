@@ -1,4 +1,4 @@
-_base_ = ['./ban_vit-b16-clip_mit-b1_512x512_40k_levircd.py']
+_base_ = ['./hcdn_vit-b16-clip_mit-b0_512x512_40k_levircd.py']
 
 pretrained = 'pretrain/clip_vit-large-patch14-336_3rdparty-0b5df9cb.pth'  # noqa
 
@@ -23,7 +23,7 @@ model = dict(
             fusion_index=[1, 2, 3],
             clip_channels=1024),
         ban_dec_cfg=dict(
-            in_channels=[64, 128, 320, 512])))
+            in_channels=[32, 64, 160, 256])))
 
 train_dataloader = dict(batch_size=8, num_workers=8)
 val_dataloader = dict(batch_size=1, num_workers=1)

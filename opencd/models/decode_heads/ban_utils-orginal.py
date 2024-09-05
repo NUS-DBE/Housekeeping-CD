@@ -131,8 +131,6 @@ class CrossMultiheadAttention(MultiheadAttention):
         
         out = nlc_to_nchw(out, hw_shape)
 
-        # print(2)
-
         return identity + self.gamma1(out)
 
 
@@ -197,9 +195,6 @@ class BridgeLayer(BaseModule):
         # The ret[0] of build_norm_layer is norm name.
         self.norm2 = build_norm_layer(norm_cfg, embed_dims)[1]
 
-        self.norm3 = build_norm_layer(norm_cfg, embed_dims)[1]
-        self.norm4 = build_norm_layer(norm_cfg, embed_dims)[1]
-
         self.ffn = MixFFN(
             embed_dims=embed_dims,
             feedforward_channels=feedforward_channels,
@@ -207,33 +202,15 @@ class BridgeLayer(BaseModule):
             dropout_layer=dict(type='DropPath', drop_prob=drop_path_rate),
             act_cfg=act_cfg)
 
-        self.firstcnn=FirstCNN(
-            embed_dims=embed_dims,
-            feedforward_channels=feedforward_channels,
-            ffn_drop=drop_rate,
-            dropout_layer=dict(type='DropPath', drop_prob=drop_path_rate),
-            act_cfg=act_cfg)
-
-        self.secondcnn=SecondCNN(
-            embed_dims=embed_dims,
-            feedforward_channels=feedforward_channels,
-            ffn_drop=drop_rate,
-            dropout_layer=dict(type='DropPath', drop_prob=drop_path_rate),
-            act_cfg=act_cfg)
     def forward(self, x, x_kv):
         hwshape = x.shape[-2:]
-        # print(hwshape, x_kv.shape)
-        x_kv_norm=self.norm3(resize(
+        x = self.attn(self.norm1(x), x_kv, identity=x)
+        # x = self.ffn(self.norm2(x), identity=x)
+        x = x + resize(
             x_kv,
             size=hwshape,
             mode='bilinear',
-            align_corners=False))
-        x_f1 = self.firstcnn(x_kv_norm, identity=x_kv_norm)
-        x_f2= self.secondcnn(x_kv_norm, identity=x_kv_norm)
-
-        x = self.attn(self.norm1(x), x_kv, identity=x)+x_f1
-        x = self.ffn(self.norm2(x), identity=x)
-        x = x + x_f2
+            align_corners=False)
         return x
     
 
@@ -304,137 +281,6 @@ class MixFFN(BaseModule):
         return identity + self.dropout_layer(out)
 
 
-class FirstCNN(BaseModule):
-    """An implementation of MixFFN of Segformer. \
-        Here MixFFN is uesd as projection head of Changer.
-    Args:
-        embed_dims (int): The feature dimension. Same as
-            `MultiheadAttention`. Defaults: 256.
-        feedforward_channels (int): The hidden dimension of FFNs.
-            Defaults: 1024.
-        act_cfg (dict, optional): The activation config for FFNs.
-            Default: dict(type='ReLU')
-        ffn_drop (float, optional): Probability of an element to be
-            zeroed in FFN. Default 0.0.
-        dropout_layer (obj:`ConfigDict`): The dropout_layer used
-            when adding the shortcut.
-        init_cfg (obj:`mmcv.ConfigDict`): The Config for initialization.
-            Default: None.
-    """
-
-    def __init__(self,
-                 embed_dims,
-                 feedforward_channels,
-                 act_cfg=dict(type='GELU'),
-                 ffn_drop=0.,
-                 dropout_layer=None,
-                 init_cfg=None):
-        super(FirstCNN, self).__init__(init_cfg)
-
-        self.embed_dims = embed_dims
-        self.feedforward_channels = feedforward_channels
-        self.act_cfg = act_cfg
-        self.activate = build_activation_layer(act_cfg)
-
-        in_channels = embed_dims
-        fc1 = Conv2d(
-            in_channels=in_channels,
-            out_channels=feedforward_channels,
-            kernel_size=1,
-            stride=1,
-            bias=True)
-        # 3x3 depth wise conv to provide positional encode information
-        pe_conv = Conv2d(
-            in_channels=feedforward_channels,
-            out_channels=feedforward_channels,
-            kernel_size=3,
-            stride=1,
-            padding=(3 - 1) // 2,
-            bias=True,
-            groups=feedforward_channels)
-        fc2 = Conv2d(
-            in_channels=feedforward_channels,
-            out_channels=in_channels,
-            kernel_size=1,
-            stride=1,
-            bias=True)
-        drop = nn.Dropout(ffn_drop)
-        layers = [fc1, pe_conv, self.activate, drop, fc2, drop]
-        self.layers = Sequential(*layers)
-        self.dropout_layer = build_dropout(
-            dropout_layer) if dropout_layer else torch.nn.Identity()
-
-    def forward(self, x, identity=None):
-        out = self.layers(x)
-        if identity is None:
-            identity = x
-        return identity + self.dropout_layer(out)
-
-class SecondCNN(BaseModule):
-    """An implementation of MixFFN of Segformer. \
-        Here MixFFN is uesd as projection head of Changer.
-    Args:
-        embed_dims (int): The feature dimension. Same as
-            `MultiheadAttention`. Defaults: 256.
-        feedforward_channels (int): The hidden dimension of FFNs.
-            Defaults: 1024.
-        act_cfg (dict, optional): The activation config for FFNs.
-            Default: dict(type='ReLU')
-        ffn_drop (float, optional): Probability of an element to be
-            zeroed in FFN. Default 0.0.
-        dropout_layer (obj:`ConfigDict`): The dropout_layer used
-            when adding the shortcut.
-        init_cfg (obj:`mmcv.ConfigDict`): The Config for initialization.
-            Default: None.
-    """
-
-    def __init__(self,
-                 embed_dims,
-                 feedforward_channels,
-                 act_cfg=dict(type='GELU'),
-                 ffn_drop=0.,
-                 dropout_layer=None,
-                 init_cfg=None):
-        super(SecondCNN, self).__init__(init_cfg)
-
-        self.embed_dims = embed_dims
-        self.feedforward_channels = feedforward_channels
-        self.act_cfg = act_cfg
-        self.activate = build_activation_layer(act_cfg)
-
-        in_channels = embed_dims
-        fc1 = Conv2d(
-            in_channels=in_channels,
-            out_channels=feedforward_channels,
-            kernel_size=1,
-            stride=1,
-            bias=True)
-        # 3x3 depth wise conv to provide positional encode information
-        pe_conv = Conv2d(
-            in_channels=feedforward_channels,
-            out_channels=feedforward_channels,
-            kernel_size=3,
-            stride=1,
-            padding=(3 - 1) // 2,
-            bias=True,
-            groups=feedforward_channels)
-        fc2 = Conv2d(
-            in_channels=feedforward_channels,
-            out_channels=in_channels,
-            kernel_size=1,
-            stride=1,
-            bias=True)
-        drop = nn.Dropout(ffn_drop)
-        layers = [fc1, pe_conv, self.activate, drop, fc2, drop]
-        self.layers = Sequential(*layers)
-        self.dropout_layer = build_dropout(
-            dropout_layer) if dropout_layer else torch.nn.Identity()
-
-    def forward(self, x, identity=None):
-        out = self.layers(x)
-        if identity is None:
-            identity = x
-        return identity + self.dropout_layer(out)
 @MODELS.register_module()
 class BAN_MLPDecoder(BaseModule):
     def __init__(self,

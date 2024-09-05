@@ -1,8 +1,7 @@
 _base_ = '../_base_/default_runtime.py'
 
 dataset_type = 'LEVIR_CD_Dataset'
-data_root = 'data/CSCD'
-
+data_root = 'data/CSCD(all)'
 
 crop_size = (256, 256)
 train_pipeline = [
@@ -49,7 +48,7 @@ tta_pipeline = [
 ]
 train_dataloader = dict(
     batch_size=8,
-    num_workers=4,
+    num_workers=8,
     persistent_workers=True,
     sampler=dict(type='InfiniteSampler', shuffle=True),
     dataset=dict(
@@ -57,7 +56,7 @@ train_dataloader = dict(
         data_root=data_root,
         data_prefix=dict(
             seg_map_path='train/label',
-            img_path_from='train/A',
+            img_path_from='train/A', 
             img_path_to='train/B'),
         pipeline=train_pipeline))
 val_dataloader = dict(
@@ -94,7 +93,7 @@ test_evaluator = dict(
 
 # optimizer
 optimizer=dict(
-    type='AdamW', lr=0.001, betas=(0.9, 0.999), weight_decay=0.05)
+    type='Adam', lr=0.0003, betas=(0.9, 0.999), weight_decay=0.05)
 optim_wrapper = dict(type='OptimWrapper', optimizer=optimizer)
 # learning policy
 param_scheduler = [
@@ -109,8 +108,17 @@ param_scheduler = [
         by_epoch=False,
     )
 ]
+# learning policy
+param_scheduler = [
+    dict(
+        type='CosineAnnealingLR',
+        T_max=100000,   # 周期的长度，可以根据训练迭代次数调整
+        eta_min=0.0,    # 最低学习率
+        by_epoch=False  # 是否按 epoch 更新，设为 False 表示按 iteration 更新
+   )
+]
 # training schedule for 40k
-train_cfg = dict(type='IterBasedTrainLoop', max_iters=100000, val_interval=4000)
+train_cfg = dict(type='IterBasedTrainLoop', max_iters=100000, val_interval=2000)
 val_cfg = dict(type='ValLoop')
 test_cfg = dict(type='TestLoop')
 default_hooks = dict(
