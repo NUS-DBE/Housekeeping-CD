@@ -94,20 +94,16 @@ test_evaluator = dict(
 
 # optimizer
 optimizer=dict(
-    type='AdamW', lr=0.001, betas=(0.9, 0.999), weight_decay=0.05)
+    type='Adam', lr=0.0003, betas=(0.9, 0.999), weight_decay=0.05)
 optim_wrapper = dict(type='OptimWrapper', optimizer=optimizer)
 # learning policy
 param_scheduler = [
     dict(
-        type='LinearLR', start_factor=1e-6, by_epoch=False, begin=0, end=1000),
-    dict(
-        type='PolyLR',
-        power=1.0,
-        begin=1000,
-        end=40000,
-        eta_min=0.0,
-        by_epoch=False,
-    )
+        type='CosineAnnealingLR',
+        T_max=100000,   
+        eta_min=0.0,    
+        by_epoch=False  
+   )
 ]
 # training schedule for 40k
 train_cfg = dict(type='IterBasedTrainLoop', max_iters=100000, val_interval=4000)
