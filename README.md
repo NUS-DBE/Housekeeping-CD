@@ -1,70 +1,117 @@
 python tools/test.py configs/ban/ban_vit-l14-clip_mit-b2_512x512_40k_levircd.py ./baan_cscd_adamW-1e-3-Cos-new/best_mIoU_iter_12000.pth
 
-<div align="center">
-<a href="https://arxiv.org/abs/2407.15317"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Farxiv.org%2Fabs%2F2407.15317&count_bg=%23FF0000&title_bg=%23555555&icon=arxiv.svg&icon=&icon_color=%23E7E7E7&title=Technical+Report&edge_flat=false"/></a>
-<a href="https://github.com/likyoo/open-cd"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Flikyoo%2Fopen-cdA&count_bg=%2379C83D&title_bg=%23555555&icon=github.svg&icon_color=%23E7E7E7&title=Github&edge_flat=false"/></a>
-<a href="https://huggingface.co/likyoo/Open-CD_Model_Zoo"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fhuggingface.co%2Flikyoo%2FOpen-CD_Model_Zoo&count_bg=%23684BD3&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=%F0%9F%A4%97%20Hugging%20Face&edge_flat=false"/></a>
-</div>
 
-## Introduction
-Open-CD is an open source change detection toolbox based on a series of open source general vision task tools.
+# FFO
+Code for A Change Detection Network and Dataset for Housekeeping in Construction Sites.
 
 
-## News
-- 7/23/2024 - **Open-CD Technical Report v1.0 is released on [arXiv](https://arxiv.org/abs/2407.15317), thanks to all contributors! Feel free to join us!** 💥💥💥
-- 6/29/2024 - [ChangeStar](https://github.com/Z-Zheng/ChangeStar) and [FarSeg](https://github.com/Z-Zheng/FarSeg) are supported.
-- 6/20/2024 - We launch the **[Open-CD Technical Report Plan](https://github.com/likyoo/open-cd/tree/main/projects/open-cd_technical_report)**, don't hesitate to join us!!! 💥💥💥
-- 6/17/2024 - [CGNet](https://github.com/ChengxiHAN/CGNet-CD) is supported.
-- 2/10/2024 - Open-CD is upgraded to v1.1.0. [BAN](https://github.com/likyoo/BAN), [TTP](https://github.com/KyanChen/TTP) and [LightCDNet](https://github.com/NightSongs/LightCDNet) is supported. The inference API is added.
-- 4/21/2023 - Open-CD v1.0.0 is released in 1.x branch, based on OpenMMLab 2.0 ! PyTorch 2.0 is also supported ! Enjoy it !
-- 3/14/2023 - Open-CD is upgraded to v0.0.3. Semantic Change Detection (SCD) is supported !
-- 11/17/2022 - Open-CD is upgraded to v0.0.2, requiring a higher version of the MMSegmentation dependency.
-- 9/28/2022 - The code, pre-trained models and logs of [ChangerEx](https://github.com/likyoo/open-cd/tree/main/configs/changer) are available. :yum:
-- 9/20/2022 - Our paper [Changer: Feature Interaction is What You Need for Change Detection](https://arxiv.org/abs/2209.08290) is available!
-- 7/30/2022 - Open-CD is publicly available!
 
-## Benchmark and model zoo
+ <img src="ffo.jpg" width="100%">
 
-Supported toolboxes:
 
-- [x] [OpenMMLab Toolkits](https://github.com/open-mmlab)
-- [x] [pytorch-image-models](https://github.com/rwightman/pytorch-image-models)
-- [ ] ...
+ 
+## Environment
+- The code is tested on Ubuntu 20.04.2, python 3.8, cuda 11.1.
 
-Supported change detection model:
-(_The code of some models are borrowed directly from their official repositories._)
 
-- [x] [FC-EF (ICIP'2018)](configs/fcsn)
-- [x] [FC-Siam-diff (ICIP'2018)](configs/fcsn)
-- [x] [FC-Siam-conc (ICIP'2018)](configs/fcsn)
-- [x] [STANet (RS'2020)](configs/stanet)
-- [x] [IFN (ISPRS'2020)](configs/ifn)
-- [x] [SNUNet (GRSL'2021)](configs/snunet)
-- [x] [BiT (TGRS'2021)](configs/bit)
-- [x] [ChangeStar (ICCV'2021)](configs/changestar)
-- [x] [ChangeFormer (IGARSS'22)](configs/changeformer)
-- [x] [TinyCD (NCA'2023)](configs/tinycd)
-- [x] [Changer (TGRS'2023)](configs/changer)
-- [x] [HANet (JSTARS'2023)](configs/hanet)
-- [x] [TinyCDv2 (Under Review)](configs/tinycd_v2)
-- [x] [LightCDNet (GRSL'2023)](configs/lightcdnet)
-- [x] [CGNet (JSTARS'2023)](configs/cgnet)
-- [x] [BAN (TGRS'2024)](configs/ban)
-- [x] [TTP (arXiv'2023)](configs/ttp)
-- [ ] ...
+## Installation
+ 1. Install pytorch
 
-Supported datasets: | [Descriptions](https://github.com/wenhwu/awesome-remote-sensing-change-detection)
-- [x] [LEVIR-CD](https://justchenhao.github.io/LEVIR/)
-- [x] [WHU-CD](https://study.rsgis.whu.edu.cn/pages/download/building_dataset.html)
-- [x] [S2Looking](https://github.com/S2Looking/Dataset)
-- [x] [SVCD](https://drive.google.com/file/d/1GX656JqqOyBi_Ef0w65kDGVto-nHrNs9/edit)
-- [x] [DSIFN](https://github.com/GeoZcx/A-deeply-supervised-image-fusion-network-for-change-detection-in-remote-sensing-images/tree/master/dataset)
-- [x] [CLCD](https://github.com/liumency/CropLand-CD)
-- [x] [RSIPAC](https://engine.piesat.cn/ai/autolearning/index.html#/dataset/detail?key=8f6c7645-e60f-42ce-9af3-2c66e95cfa27)
-- [x] [SECOND](http://www.captain-whu.com/PROJECT/)
-- [x] [Landsat](https://figshare.com/articles/figure/Landsat-SCD_dataset_zip/19946135/1)
-- [x] [BANDON](https://github.com/fitzpchao/BANDON)
-- [ ] ...
+  ```bash
+  pip install torch==1.8.0+cu111 torchvision==0.9.0+cu111 torchaudio==0.8.0 -f https://download.pytorch.org/whl/torch_stable.html
+  ```
+
+ 2. Clone this repository
+  ```bash
+  git clone https://github.com/kailaisun/FFO
+  ```
+  
+ 3. Install 
+  ```bash
+  pip install -r requirements.txt
+  ```
+  
+
+## Test
+### SCM ( Scene-based counting method)
+
+```Bash
+python people_detect.py --path <video_path>
+```
+- Result of SCM
+
+
+![image](https://raw.githubusercontent.com/kailaisun/FFO/main/gif/1.gif)
+- You can modify hyperparameters of JointDet module in person_detect.py.
+```python 
+ result_info = joint_de(head_info, other_info,thresh=0.8,conf=0.6,thresh1=0.8)  #line 50
+```
+### LCM ( Line-based counting method)
+- peopeo_count.py conducts LCM (YOLOX+Deepsort) of indoor view.
+- After you obtained the sequences of two-vision LCM:
+```Bash
+python joint.py
+```
+- Note that in overhead entrance counting method our video frame rate is downsampled to one-fifth of the original video.
+- Result of YOLOX+Deepsort
+
+
+![image](https://raw.githubusercontent.com/kailaisun/FFO/main/gif/2.gif) 
+
+
+    label of indoor view LCM
+    ```
+    frame: i, in/out num: y
+    frame: k, in/out num: y
+    .
+    .
+    .
+    ```
+    label of overhead view LCM
+    ```
+    frame: i, num: y
+    frame: i+1, num: y
+    frame: i+2, num: y
+    .
+    .
+    .
+    ```
+
+### DBF
+
+```bash 
+pytho main.py
+```
+
+## Citation
+
+Please refer to the following bibtex to cite.
+
+```
+@article{SUN2022109631,
+title = {A fusion framework for vision-based indoor occupancy estimation},
+        journal = {Building and Environment},
+        volume = {225},
+        pages = {109631},
+        year = {2022},
+        issn = {0360-1323},
+        doi = {https://doi.org/10.1016/j.buildenv.2022.109631},
+        author = {Kailai Sun and Peng Liu and Tian Xing and Qianchuan Zhao and Xinwei Wang}
+}
+```
+
+
+
+## Contact Us
+
+If you have other questions❓, please contact us in time 👬
+
+
+
+
+
+
+💥💥💥
 
 ## Usage
 
