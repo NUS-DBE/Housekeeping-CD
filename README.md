@@ -11,24 +11,30 @@
  
 
  
-
+## Environment
+- The code is tested on Ubuntu 22.04, python 3.10, cuda 12.0.
 
 
 ## Install
 
 
-Please refer [Install](https://github.com/likyoo/open-cd/blob/main/docs/inference.md) doc.
+1. Please refer [Install](https://github.com/likyoo/open-cd/blob/main/docs/inference.md) doc.
 Or refer to Install [opencd](https://github.com/likyoo/open-cd).
 
 
+2. Clone this repository
+  ```bash
+  git clone https://github.com/NUS-DBE/Housekeeping-CD
+  ```
+  
 
 
 ## Usage
 
 #### Prepare pretrain models
 
-Create a new folder named pretrain, then download and store the [pretrained](https://huggingface.co/likyoo/BAN/blob/main/pretrain/clip_vit-large-patch14-336_3rdparty-0b5df9cb.pth) model. 
-Download our best [trained](https://mynbox.nus.edu.sg/u/sJf-0POX_vqil_7r/aa885dbe-f834-428f-b8ae-3854991eb4c2?l) model.
+Create a new folder named pretrain, then download and store the [pretrained](https://huggingface.co/likyoo/BAN/blob/main/pretrain/clip_vit-large-patch14-336_3rdparty-0b5df9cb.pth) model. Then,
+download our best [trained](https://mynbox.nus.edu.sg/u/sJf-0POX_vqil_7r/aa885dbe-f834-428f-b8ae-3854991eb4c2?l) model.
 
 #### Test ⭐⭐⭐
 ```
