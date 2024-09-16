@@ -1,7 +1,7 @@
 
 
 
-# Code for A Change Detection Network and Dataset for Housekeeping in Construction Sites
+# Code for HCDN: A Change Detection Network and Dataset for Construction Housekeeping Using Feature Fusion and Large Vision Models 
 
 
 
