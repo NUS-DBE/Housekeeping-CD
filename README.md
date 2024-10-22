@@ -45,7 +45,12 @@ python tools/test.py configs/hcdn/hcdn_vit-l14-clip_mit-b2_512x512_40k_levircd.p
 python tools/test.py configs/hcdn/hcdn_vit-l14-clip_mit-b2_512x512_40k_levircd.py ./best.pth --show-dir images
 ```
 
-You will get the following results:
+You will find the image in the folder show-dir:
+
+ <img src="val_228.png" width="30%">
+
+
+If you have the test dataset, you will get the following results:
 ```
 +-----------+--------+-----------+--------+-------+-------+
 |   Class   | Fscore | Precision | Recall |  IoU  |  Acc  |
