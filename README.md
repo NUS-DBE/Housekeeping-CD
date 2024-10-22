@@ -45,7 +45,7 @@ python tools/test.py configs/hcdn/hcdn_vit-l14-clip_mit-b2_512x512_40k_levircd.p
 python tools/test.py configs/hcdn/hcdn_vit-l14-clip_mit-b2_512x512_40k_levircd.py ./best.pth --show-dir images
 ```
 
-You will find the image in the folder "show-dir":
+You will find the image in the folder "show-dir", and "CSCD/test":
 
   <img src="CSCD/test/B/val_228.png" width="30%">  <img src="CSCD/test/A/val_228.png" width="30%"> <img src="val_228.png" width="30%">
 
